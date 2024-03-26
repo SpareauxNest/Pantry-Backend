@@ -1,7 +1,9 @@
 package com.example.pantry.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -10,35 +12,51 @@ public class Recipe {
 
     private @Id @GeneratedValue Long id;
 
-    public Recipe(String name, List<Ingredient> ingredients, String link) {
-        this.name = name;
+    //TODO: Change over to ManyToMany
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Ingredient> ingredients;
+    private String name;
+
+    private String link;
+
+    public Recipe(Long id, List<Ingredient> ingredients, String name, String link) {
+        this.id = id;
         this.ingredients = ingredients;
+        this.name = name;
         this.link = link;
     }
 
     public Recipe(){}
-
-    private String name;
-
-    @OneToMany(mappedBy = "recipe")
-    private List<Ingredient> ingredients;
-
-    private String link;
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
     public String getName() {
         return name;
     }
-    public List<Ingredient> getIngredients() {
-        return ingredients;
+
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLink() {return link;}
+    public String getLink() {
+        return link;
+    }
 
-    public static Recipe build(String name, List<Ingredient> ingredients, String link){
-        return new Recipe(name, ingredients, link);
+    public void setLink(String link) {
+        this.link = link;
     }
 }

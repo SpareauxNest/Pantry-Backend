@@ -1,6 +1,7 @@
 package com.example.pantry;
 
 import com.example.pantry.entities.Recipe;
+import com.example.pantry.repositories.RecipeRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class Controller {
     public ResponseEntity<List<Recipe>> getData(){
         try {
             List<Recipe> result = recipeRepository.findAll();
-            return new ResponseEntity<List<Recipe>>(result, HttpStatus.FOUND);
+            return new ResponseEntity<>(result, HttpStatus.FOUND);
         }
         catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -38,8 +39,11 @@ public class Controller {
     @PostMapping("/recipe/add")
     public ResponseEntity<Recipe> newRecipe(@RequestBody Recipe recipe){
         try {
+            recipe.getIngredients().stream().forEach(ingredient -> {
+                ingredient.setRecipe(recipe);
+            });
             Recipe output = recipeRepository.save(recipe);
-            return new ResponseEntity<Recipe>(output, HttpStatus.CREATED);
+            return new ResponseEntity<>(output, HttpStatus.CREATED);
         }
         catch (Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
