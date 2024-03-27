@@ -1,6 +1,8 @@
 package com.example.pantry.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -8,13 +10,20 @@ import java.util.List;
 
 @Entity
 @Table(name = "recipes")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class Recipe {
 
     private @Id @GeneratedValue Long id;
 
-    //TODO: Change over to ManyToMany
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "recipe_to_ingredient",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "ingredient_id")
+    )
     private List<Ingredient> ingredients;
     private String name;
 

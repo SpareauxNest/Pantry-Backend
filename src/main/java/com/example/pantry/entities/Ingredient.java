@@ -1,17 +1,21 @@
 package com.example.pantry.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "ingredients")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class Ingredient {
     private @Id @GeneratedValue Long id;
 
-    @ManyToOne
-    @JoinColumn( name = "recipe_id")
-    @JsonBackReference
-    private Recipe recipe;
+    @ManyToMany(mappedBy = "ingredients")
+    private List<Recipe> recipes;
 
     private String name;
 
@@ -19,9 +23,9 @@ public class Ingredient {
 
     private String unit;
 
-    public Ingredient(Long id, Recipe recipe, String name, Double quantity, String unit) {
+    public Ingredient(Long id, List<Recipe> recipes, String name, Double quantity, String unit) {
         this.id = id;
-        this.recipe = recipe;
+        this.recipes = recipes;
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
@@ -37,12 +41,12 @@ public class Ingredient {
         this.id = id;
     }
 
-    public Recipe getRecipe() {
-        return recipe;
+    public List<Recipe> getRecipes() {
+        return recipes;
     }
 
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
+    public void setRecipes(List<Recipe> recipes) {
+        this.recipes = recipes;
     }
 
     public String getName() {
