@@ -1,21 +1,26 @@
 package com.example.pantry;
 
 import com.example.pantry.entities.Recipe;
+import com.example.pantry.repositories.IngredientRepository;
 import com.example.pantry.repositories.RecipeRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
 public class Controller {
 
     private final RecipeRepository recipeRepository;
+    private final IngredientRepository ingredientRepository;
 
-    Controller(RecipeRepository recipeRepository) {
+    Controller(RecipeRepository recipeRepository, IngredientRepository ingredientRepository) {
         this.recipeRepository = recipeRepository;
+        this.ingredientRepository = ingredientRepository;
     }
 
     @GetMapping("/recipe/getAll")
@@ -40,7 +45,12 @@ public class Controller {
     public ResponseEntity<Recipe> newRecipe(@RequestBody Recipe recipe){
         try {
             recipe.getIngredients().stream().forEach(ingredient -> {
-                ingredient.setRecipe(recipe);
+                List<Recipe> recipes;
+                if(Objects.nonNull(ingredient.getRecipes())){ recipes = ingredient.getRecipes();}
+                else{recipes = new ArrayList<>();}
+                recipes.add(recipe);
+                ingredient.setRecipes(recipes);
+                ingredientRepository.save(ingredient);
             });
             Recipe output = recipeRepository.save(recipe);
             return new ResponseEntity<>(output, HttpStatus.CREATED);
