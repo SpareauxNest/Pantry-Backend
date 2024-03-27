@@ -7,11 +7,14 @@ import java.util.List;
 
 @Entity
 @Table(name = "ingredients")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class Ingredient {
     private @Id @GeneratedValue Long id;
 
     @ManyToMany(mappedBy = "ingredients")
-    @JsonIgnore
     private List<Recipe> recipes;
 
     private String name;

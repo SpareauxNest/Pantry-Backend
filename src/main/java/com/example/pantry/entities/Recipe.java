@@ -10,6 +10,10 @@ import java.util.List;
 
 @Entity
 @Table(name = "recipes")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class Recipe {
 
     private @Id @GeneratedValue Long id;
@@ -19,10 +23,6 @@ public class Recipe {
             name = "recipe_to_ingredient",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "ingredient_id")
-    )
-    @JsonIdentityInfo(
-            generator = ObjectIdGenerators.PropertyGenerator.class,
-            property = "id"
     )
     private List<Ingredient> ingredients;
     private String name;
