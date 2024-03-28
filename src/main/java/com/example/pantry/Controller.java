@@ -1,5 +1,6 @@
 package com.example.pantry;
 
+import com.example.pantry.entities.Ingredient;
 import com.example.pantry.entities.Recipe;
 import com.example.pantry.repositories.IngredientRepository;
 import com.example.pantry.repositories.RecipeRepository;
@@ -39,6 +40,13 @@ public class Controller {
         Optional<Recipe> output = recipeRepository.findById(id);
         if(output.isPresent()){ return new ResponseEntity<Recipe>(output.get(), HttpStatus.FOUND);}
         else {return new ResponseEntity<Recipe>(HttpStatus.NOT_FOUND);}
+    }
+
+    @GetMapping("/ingredient/{id}")
+    public ResponseEntity<Ingredient> getIngredient(@PathVariable Long id){
+        Optional<Ingredient> output = ingredientRepository.findById(id);
+        if(output.isPresent()){ return new ResponseEntity<Ingredient>(output.get(), HttpStatus.FOUND);}
+        else {return new ResponseEntity<Ingredient>(HttpStatus.NOT_FOUND);}
     }
 
     @PostMapping("/recipe/add")
