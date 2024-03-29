@@ -1,0 +1,104 @@
+{
+	"info": {
+		"_postman_id": "28584f1f-8288-41f6-9afc-205efbd4ef68",
+		"name": "Pantry",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33879830"
+	},
+	"item": [
+		{
+			"name": "Recipe",
+			"item": [
+				{
+					"name": "AddRecipe",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Garlic Butter\",\r\n    \"link\": \"italian.com\",\r\n    \"ingredients\": [\r\n    {\r\n        \"unit\": \"clove\",\r\n        \"quantity\": 1.0,\r\n        \"name\": \"Garlic\"\r\n    },\r\n    {\r\n        \"unit\": \"tbs\",\r\n        \"quantity\": 2.0,\r\n        \"name\": \"Butter\"\r\n    }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/recipe/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"recipe",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRecipeById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/recipe/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"recipe",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRecipes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/recipe/getAll",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"recipe",
+								"getAll"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ingredient",
+			"item": [
+				{
+					"name": "getIngredientById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "/ingredient/1",
+							"path": [
+								"ingredient",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
