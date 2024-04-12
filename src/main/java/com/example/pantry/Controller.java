@@ -29,7 +29,7 @@ public class Controller {
     public ResponseEntity<List<Recipe>> getData(){
         try {
             List<Recipe> result = recipeRepository.findAll();
-            return new ResponseEntity<>(result, HttpStatus.FOUND);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
         catch (Exception e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
