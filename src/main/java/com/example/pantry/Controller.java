@@ -24,6 +24,7 @@ public class Controller {
         this.ingredientRepository = ingredientRepository;
     }
 
+    @CrossOrigin
     @GetMapping("/recipe/getAll")
     public ResponseEntity<List<Recipe>> getData(){
         try {

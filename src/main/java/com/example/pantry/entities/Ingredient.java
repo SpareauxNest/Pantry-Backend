@@ -14,6 +14,7 @@ import java.util.List;
 public class Ingredient {
     private @Id @GeneratedValue Long id;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "ingredients")
     private List<Recipe> recipes;
 
